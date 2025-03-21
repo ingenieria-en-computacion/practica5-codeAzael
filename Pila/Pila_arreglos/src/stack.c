@@ -24,6 +24,8 @@ void stack_push(Stack* s, Data d){
     if(s->top == TAM-1){
         return;
     }
+    s->top++;          
+    s->data[s->top] = d;
 }
 
 /**
@@ -52,8 +54,8 @@ Data stack_pop(Stack* s){
  * @details Esta función comprueba si la pila no contiene elementos. Es útil para evitar operaciones
  *          como `stack_pop` en una pila vacía.
  */
-int stack_is_empty(Stack* s){
-
+bool stack_is_empty(Stack* s){
+    return s->top == -1;
 }
 
 /**

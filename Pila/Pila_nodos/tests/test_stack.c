@@ -5,7 +5,6 @@ START_TEST(test_stack_create_delete) {
     Stack *stack = stack_create();
     ck_assert(stack_is_empty(stack));
     stack_delete(stack);
-    ck_assert_ptr_null(stack);
 }
 END_TEST
 
@@ -19,7 +18,6 @@ START_TEST(test_stack_push_pop) {
     ck_assert_int_eq(stack_pop(stack), 10);
     ck_assert(stack_is_empty(stack));
     stack_delete(stack);
-    ck_assert_ptr_null(stack);
 }
 END_TEST
 

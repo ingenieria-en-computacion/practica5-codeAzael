@@ -72,8 +72,7 @@ void stack_empty(Stack* s){
     for (int i = 0; i <= s->top; i++) {
         s->data[i] = 0;
     }
-    s->top = -1;
-    free(s->data);    
+    s->top = -1; 
 }
 
 /**
@@ -87,7 +86,11 @@ void stack_delete(Stack *s){
         return;
     }
     stack_empty(s);
-    free(s);
+    free(s->data);
+    s->data = NULL;
+    s->top = -1;
+    s->len = 0;
+
 }
 
 /**

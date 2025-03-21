@@ -5,14 +5,14 @@ START_TEST(test_stack_init) {
     Stack stack=  stack_create(5);
     ck_assert(stack_is_empty(&stack));
     stack_delete(&stack);
-    ck_assert_ptr_null(stack.data);
+    ck_assert(stack.data == NULL);
+
     
 }
 END_TEST
 
 START_TEST(test_stack_push_pop) {
-    Stack stack;
-    stack_init(&stack);
+    Stack stack = stack_create(5);
 
     stack_push(&stack, 10);
     stack_push(&stack, 20);
@@ -21,7 +21,7 @@ START_TEST(test_stack_push_pop) {
     ck_assert_int_eq(stack_pop(&stack), 10);
     ck_assert(stack_is_empty(&stack));
     stack_delete(&stack);
-    ck_assert_ptr_null(stack.data);
+    ck_assert(stack.data == NULL);
 }
 END_TEST
 
