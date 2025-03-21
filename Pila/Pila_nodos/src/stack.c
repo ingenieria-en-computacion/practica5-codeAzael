@@ -1,4 +1,5 @@
 #include "stack.h"
+#include "node.h"
 
 /**
  * Crea una nueva pila vacía y la devuelve.
@@ -9,7 +10,12 @@
  *          está vacía y top apunta a NULL
  */
 Stack *stack_create(){
-
+    Stack *new_stack = (Stack *)malloc(sizeof(Stack));
+    if (new_stack == NULL) {
+        return NULL;
+    }
+    new_stack->top = NULL;
+    return new_stack;
 }
 
 /**
@@ -21,7 +27,13 @@ Stack *stack_create(){
  *          o el puntero `s` es NULL, la función no realiza ninguna operación.
  */
 void stack_push(Stack* s, Data d){
+    if (s == NULL) return;
 
+    Node *new_node = node_create(d);
+    if (new_node == NULL) return;
+
+    new_node->next = s->top;
+    s->top = new_node;
 }
 
 /**
@@ -34,7 +46,14 @@ void stack_push(Stack* s, Data d){
  *          Si la pila está vacía, no se realiza ninguna operación y se devuelve un valor de error.
  */
 Data stack_pop(Stack* s){
-
+    if (s == NULL || s->top == NULL) {
+        return -1;
+    }
+    Node *top_node = s->top; 
+    Data data = top_node->data; 
+    s->top = top_node->next;
+    node_free(top_node);
+    return data;
 }
 
 /**
@@ -46,7 +65,14 @@ Data stack_pop(Stack* s){
  *          como `stack_pop` en una pila vacía.
  */
 int stack_is_empty(Stack* s){
-
+    if (s == NULL) {
+        return -1;
+    }
+    if (s->top == NULL) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 /**
@@ -58,7 +84,11 @@ int stack_is_empty(Stack* s){
  *          La memoria de los elementos eliminados se libera adecuadamente.
  */
 void stack_empty(Stack* s){
+    if (s == NULL) return;
 
+    while (s->top != NULL) {
+        stack_pop(s);
+    }
 }
 
 /**
@@ -71,7 +101,11 @@ void stack_empty(Stack* s){
  *          de ser eliminada.
  */
 void stack_delete(Stack *s){
-
+    if (s == NULL){
+        return;
+    }
+    stack_empty(s);
+    free(s);
 }
 
 /**
@@ -84,5 +118,13 @@ void stack_delete(Stack *s){
  *          la salida estándar (stdout).
  */
 void stack_print(Stack *s){
-
+    if (s->top == NULL) {
+        printf("La pila está vacía.\n");
+        return;
+    }
+    printf("Pila de arriba hacia abajo:\n");
+    
+    for (Node *n = s->top; n != NULL; n = n->next) {
+        printf("%d", n->data);
+    }
 }
